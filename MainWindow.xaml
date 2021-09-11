@@ -1,0 +1,179 @@
+﻿<Window x:Class="import_export.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:import_export"
+        mc:Ignorable="d"
+        Height="670.899" Width="900"
+        Title="Import / Export Management"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Image x:Key="add_pic" Source="/images/add.png"/>
+        <Image x:Key="change_pic" Source="/images/change.png"/>
+        <Image x:Key="search_pic" Source="/images/search.png"/>
+    </Window.Resources>
+    <Grid >
+        <Label 
+            Name="Table_name" 
+            FontSize="24" 
+            Content="IMPORT"
+            Foreground="DarkRed" 
+            Margin="5,0,10,10"
+            BorderBrush="DarkGray"
+            BorderThickness="5 , 5 , 0 ,5" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Width="123"/>
+        <Label 
+            Name="total_cost" 
+            FontSize="24" 
+            Foreground="DarkRed" 
+            Margin="128,0,10,10"
+            BorderBrush="DarkGray"
+            BorderThickness="0 , 5 , 0 ,5" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Width="371"/>
+        <Label
+            Name="print_date"
+            FontSize="12"
+            Foreground="Black"
+            BorderBrush="DarkGray"
+            HorizontalContentAlignment="Right"
+            VerticalContentAlignment="Top"
+            BorderThickness="0 , 5 , 5 ,5" Height="60" VerticalAlignment="Top" Margin="499,0,10,0"/>
+        <Button 
+                Margin="20,65,325,19" 
+                x:Name="change" 
+                Height="44" 
+                Width="44"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left" Click="Change_Click">
+
+        </Button>
+        <Button 
+                Margin="84,65,325,19" 
+                x:Name="add" 
+                Height="44" 
+                Width="44"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left" Click="Add_Click" >
+        </Button>
+        <ListView Margin="10,121,344,20" x:Name="list" SelectionChanged="ListBox_SelectionChanged" SelectionMode="Single" >
+            <ListView.Resources>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Details}" Value = "notes">
+                            <Setter Property="Foreground" Value="IndianRed" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Details}" Value = "">
+                            <Setter Property="Foreground" Value="Black" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Resources>
+            
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="ID" Width="50" DisplayMemberBinding= "{Binding ID}"/>
+                    <GridViewColumn Header="Item" Width="180" DisplayMemberBinding= "{Binding Item}"/>
+                    <GridViewColumn Header="Quantity" Width="60" DisplayMemberBinding= "{Binding Quantity}"/>
+                    <GridViewColumn Header="Date" Width="140" DisplayMemberBinding= "{Binding Date}"/>
+                    <GridViewColumn Header="Cost" Width="90" DisplayMemberBinding= "{Binding Cost}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Grid Margin="10,86,10,20" HorizontalAlignment="Right" Width="300" >
+            <Border BorderBrush="DarkGray" BorderThickness="5" CornerRadius="5">
+                <Label Content="Search Tools" FontSize="16"/>
+            </Border>
+            <Button 
+                Margin="30,440,226,40"
+                x:Name="search"
+                Width="44" 
+                Height="44" 
+                VerticalAlignment="Bottom" Click="Search_Click">
+            </Button>
+            <CheckBox 
+                Content="Item Name" 
+                x:Name="c_name" 
+                Margin="0,57,10,5" 
+                Click="CheckBox_Check_changed" 
+                HorizontalAlignment="Right" 
+                Width="82" 
+                Height="22" 
+                VerticalAlignment="Top">
+            </CheckBox>
+            <TextBox 
+                IsEnabled="False" 
+                x:Name="t_name" 
+                Height="32" 
+                TextWrapping="Wrap" 
+                Margin="51,84,10,5" 
+                VerticalAlignment="Top"/>
+            <CheckBox 
+                Content="Year" 
+                x:Name="c_year" 
+                Margin="0,133,10,5" 
+                Click="CheckBox_Check_changed" 
+                HorizontalAlignment="Right" 
+                Width="83" 
+                Height="22" 
+                VerticalAlignment="Top">
+            </CheckBox>
+            <TextBox 
+                IsEnabled="False" 
+                x:Name="t_year" 
+                Height="32" 
+                TextWrapping="Wrap" 
+                Margin="51,160,10,5" 
+                VerticalAlignment="Top"/>
+            <CheckBox 
+                Content="Month" 
+                x:Name="c_month" 
+                Margin="0,212,10,5" 
+                Click="CheckBox_Check_changed" 
+                HorizontalAlignment="Right" 
+                Width="82" 
+                Height="23" 
+                VerticalAlignment="Top">
+            </CheckBox>
+            <TextBox 
+                IsEnabled="False" 
+                x:Name="t_month" 
+                Height="32" 
+                TextWrapping="Wrap" 
+                Margin="51,240,10,5" 
+                VerticalAlignment="Top"/>
+            <CheckBox 
+                Content="Day" 
+                x:Name="c_day" 
+                Margin="0,292,11,5" 
+                Click="CheckBox_Check_changed" 
+                HorizontalAlignment="Right" 
+                Width="82" 
+                Height="23" 
+                VerticalAlignment="Top">
+            </CheckBox>
+            <TextBox 
+                IsEnabled="False" 
+                x:Name="t_day" 
+                Height="32" 
+                TextWrapping="Wrap" 
+                Margin="51,320,10,5" 
+                VerticalAlignment="Top"/>
+            <CheckBox 
+                Content="Quantity" 
+                x:Name="c_quantity" 
+                Margin="0,367,11,5" 
+                Click="CheckBox_Check_changed" 
+                HorizontalAlignment="Right" 
+                Width="82" 
+                Height="23" 
+                VerticalAlignment="Top">
+            </CheckBox>
+            <TextBox 
+                IsEnabled="False" 
+                x:Name="t_quantity" 
+                Height="32" 
+                TextWrapping="Wrap" 
+                Margin="51,395,10,5" 
+                VerticalAlignment="Top"/>
+        </Grid>
+    </Grid>
+</Window>
