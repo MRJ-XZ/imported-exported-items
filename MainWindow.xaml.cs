@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -26,9 +22,18 @@ namespace import_export
         public MainWindow()
         {
             InitializeComponent();
-            add.Content = FindResource("add_pic");
-            change.Content = FindResource("change_pic");
-            search.Content = FindResource("search_pic");
+            add.Content = new Image()
+            {
+                Source = new BitmapImage(new Uri($"{Environment.CurrentDirectory}/images/add.png"))
+            };
+            change.Content = new Image()
+            {
+                Source = new BitmapImage(new Uri($"{Environment.CurrentDirectory}/images/change.png"))
+            };
+            search.Content = new Image()
+            {
+                Source = new BitmapImage(new Uri($"{Environment.CurrentDirectory}/images/search.png"))
+            };
             print_date.Content = $"{cal.GetYear(DateTime.Now)} / {cal.GetMonth(DateTime.Now)} / {cal.GetDayOfMonth(DateTime.Now)} - {cal.GetDayOfWeek(DateTime.Now)}";
             ListView_rearrange($"SELECT * FROM {Table_key} ORDER BY ID DESC");
         }
@@ -36,22 +41,22 @@ namespace import_export
         {
             total = 0;
             list.Items.Clear();
-            sqlite.sql_command_read(command);
-            while (sqlite.check_reader_and_close())
+            sqlite.SQL_Query(command);
+            while (sqlite.Row_available())
             {
                 list.Items.Add(new Data_Binding
                 {
-                    ID = sqlite.reader.GetInt32(0),
-                    Item = sqlite.reader.GetString(1),
-                    Quantity = sqlite.reader.GetInt16(2),
-                    Date = $"{sqlite.reader.GetInt16(3)}" +
-                    $"/{sqlite.reader.GetInt16(4)}/{sqlite.reader.GetInt16(5)} - {sqlite.reader.GetInt16(6)}:{sqlite.reader.GetInt16(7)}",
-                    Cost = sqlite.reader.GetInt32(8),
-                    Details = (sqlite.reader.GetString(9) != "") ? "notes" : ""
+                    ID = sqlite.Read_Row().GetInt32(0),
+                    Item = sqlite.Read_Row().GetString(1),
+                    Quantity = sqlite.Read_Row().GetInt16(2),
+                    Date = $"{sqlite.Read_Row().GetInt16(3)}" +
+                    $"/{sqlite.Read_Row().GetInt16(4)}/{sqlite.Read_Row().GetInt16(5)} - {sqlite.Read_Row().GetInt16(6)}:{sqlite.Read_Row().GetInt16(7)}",
+                    Cost = sqlite.Read_Row().GetInt32(8),
+                    Details = (sqlite.Read_Row().GetString(9) != "") ? "notes" : ""
                 });
-                total += sqlite.reader.GetInt32(8);
+                total += sqlite.Read_Row().GetInt32(8);
             }
-            total_cost.Content = $"Total : {total.ToString()}";
+            total_cost.Content = $"Total Cost : ${total.ToString()}";
         }
         private void Change_Click(object sender, RoutedEventArgs e)
         {

@@ -99,7 +99,10 @@ namespace import_export
         public Add(string key) : base(key)
         {                       
             Title = "Add";
-            confirm.Content = FindResource("confirm_pic");            
+            confirm.Content = new Image()
+            {
+                Source = new BitmapImage(new Uri($"{Environment.CurrentDirectory}/images/confirm.png"))
+            };
         }        
         public override void Confirm_Click(object sender, RoutedEventArgs e)
         {
@@ -111,7 +114,7 @@ namespace import_export
                     {
                         if (Regex_Check(@"^\d{1,}", cost.Text))
                         {
-                            sqlite.sql_command($"INSERT INTO {Table_key} ( item , quantity , year , month , day ,hour , minute  , cost , notes ) VALUES (\"{name.Text}\" ," +
+                            sqlite.SQL_NonQuery($"INSERT INTO {Table_key} ( item , quantity , year , month , day ,hour , minute  , cost , notes ) VALUES (\"{name.Text}\" ," +
                                 $" {int.Parse(quantity.Text)} , {date_formatted[0]} , {date_formatted[1]} , {date_formatted[2]} , {date_formatted[3]} , {date_formatted[4]} ," +
                                 $" {int.Parse(cost.Text)} , \"{(details.Text != "Details (Max 300 characters)" ? details.Text : "")}\" )");
                             this.Close();
@@ -135,16 +138,19 @@ namespace import_export
         public Item_description(string key , Data_Binding data) : base(key)
         {
             Title = "Description";
-            confirm.Content = FindResource("update_pic");
+            confirm.Content = new Image()
+            {
+                Source = new BitmapImage(new Uri($"{Environment.CurrentDirectory}/images/update.png"))
+            };
             ID = data.ID;
             name.Text = data.Item;
             date.Text = data.Date;
             quantity.Text = data.Quantity.ToString();
             cost.Text = data.Cost.ToString();
-            sqlite.sql_command_read($"SELECT notes FROM {Table_key} WHERE ID = {data.ID}");
-            while(sqlite.check_reader_and_close())
+            sqlite.SQL_Query($"SELECT notes FROM {Table_key} WHERE ID = {data.ID}");
+            while(sqlite.Row_available())
             {               
-                if (( details.Text = sqlite.reader.GetString(0) ) != "")                
+                if (( details.Text = sqlite.Read_Row().GetString(0) ) != "")                
                     details.Foreground = Brushes.Gray;
                 else
                     details.Foreground = Brushes.Black;
@@ -160,7 +166,7 @@ namespace import_export
                     {
                         if (Regex_Check(@"^\d{1,}", cost.Text))
                         {
-                            sqlite.sql_command($"UPDATE {Table_key} set item = \"{name.Text}\" , quantity = {int.Parse(quantity.Text)} , year = {date_formatted[0]} ," +
+                            sqlite.SQL_Query($"UPDATE {Table_key} set item = \"{name.Text}\" , quantity = {int.Parse(quantity.Text)} , year = {date_formatted[0]} ," +
                                 $" month = {date_formatted[1]} , day = {date_formatted[2]} ,hour = {date_formatted[3]} , minute = {date_formatted[4]} ," +
                                 $" cost = {int.Parse(cost.Text)}  , notes = \"{(details.Text != "Details (Max 300 characters)" ? details.Text : "")}\" WHERE ID = {ID}"); 
                             this.Close();
@@ -180,25 +186,15 @@ namespace import_export
         public override void Textbox_DoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (sender.Equals(date))
-            {
                 date.Foreground = Brushes.Black;
-            }
             else if (sender.Equals(name))
-            {               
                 name.Foreground = Brushes.Black;
-            }
             else if (sender.Equals(quantity))
-            {
                 quantity.Foreground = Brushes.Black;
-            }
-            else if (sender.Equals(cost))
-            {
-                cost.Foreground = Brushes.Black;
-            }
-            else if (sender.Equals(details))
-            {
-                details.Foreground = Brushes.Black;
-            }
+            else if (sender.Equals(cost))           
+                cost.Foreground = Brushes.Black;           
+            else if (sender.Equals(details))          
+                details.Foreground = Brushes.Black;            
         }
     }
 }

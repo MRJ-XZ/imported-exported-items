@@ -8,11 +8,6 @@
         Height="670.899" Width="900"
         Title="Import / Export Management"
         WindowStartupLocation="CenterScreen">
-    <Window.Resources>
-        <Image x:Key="add_pic" Source="/images/add.png"/>
-        <Image x:Key="change_pic" Source="/images/change.png"/>
-        <Image x:Key="search_pic" Source="/images/search.png"/>
-    </Window.Resources>
     <Grid >
         <Label 
             Name="Table_name" 
@@ -44,7 +39,6 @@
                 Width="44"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Left" Click="Change_Click">
-
         </Button>
         <Button 
                 Margin="84,65,325,19" 
@@ -67,7 +61,7 @@
                     </Style.Triggers>
                 </Style>
             </ListView.Resources>
-            
+
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="ID" Width="50" DisplayMemberBinding= "{Binding ID}"/>
@@ -83,11 +77,11 @@
                 <Label Content="Search Tools" FontSize="16"/>
             </Border>
             <Button 
-                Margin="30,440,226,40"
+                Margin="30,450,226,5"
                 x:Name="search"
                 Width="44" 
                 Height="44" 
-                VerticalAlignment="Bottom" Click="Search_Click">
+                VerticalAlignment="Top" Click="Search_Click">
             </Button>
             <CheckBox 
                 Content="Item Name" 

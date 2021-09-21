@@ -6,10 +6,6 @@
         xmlns:local="clr-namespace:import_export"
         mc:Ignorable="d"
         Height="500" Width="300" WindowStyle="ToolWindow" Topmost="True" WindowStartupLocation="CenterScreen">
-    <Window.Resources>
-        <Image x:Key="confirm_pic" Source="/images/confirm.png"/>
-        <Image x:Key="update_pic" Source="/images/update.png"/>
-    </Window.Resources>
     <Grid>
         <Border BorderBrush="DarkGray" BorderThickness="5" CornerRadius="5" Margin="5"/>
         <Label 
